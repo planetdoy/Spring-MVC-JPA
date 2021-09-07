@@ -1,7 +1,8 @@
 # Spring MVC - JPA
 > Spring MVC 와 JPA 를 활용한 간단 상품 조회 서비스 입니다
- 
-![doydoit](./img/DOY_BMO.png)
+
+<img src="https://raw.githubusercontent.com/planetdoy/Spring-MVC-JPA/main/img/DOY_BMO.png"  width="200" height="200"/>  
+
 ## 프로젝트 목표
 * Spring MVC 와 JPA 활용 능력을 높입니다.
 ---
