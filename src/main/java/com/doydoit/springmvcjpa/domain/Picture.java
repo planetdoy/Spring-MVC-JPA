@@ -16,6 +16,7 @@ public class Picture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "picture_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
