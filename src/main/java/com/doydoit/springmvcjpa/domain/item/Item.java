@@ -1,4 +1,4 @@
-package com.doydoit.springmvcjpa.domain;
+package com.doydoit.springmvcjpa.domain.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Item {
@@ -23,9 +22,15 @@ public class Item {
     @NotEmpty(message = "상품 명을 입력해주세요.")
     private String name;
 
-    @NotEmpty(message = "가격은 1000원 이상 입니다.")
+    @NotNull(message = "가격은 1000원 이상 입니다.")
     private int price;
 
-    @NotEmpty(message = "수량은 0 이상 입니다.")
+    @NotNull(message = "수량은 0 이상 입니다.")
     private int stockQuantity;
+
+    public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 }
