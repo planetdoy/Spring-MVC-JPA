@@ -1,5 +1,5 @@
 package com.doydoit.springmvcjpa.domain;
 
-public enum DeliveryStatus {
-    READY,COMP
+public enum OrderStatus {
+    ORDER,CANCEL
 }
