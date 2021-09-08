@@ -1,5 +1,7 @@
-package com.doydoit.springmvcjpa.domain;
+package com.doydoit.springmvcjpa.domain.delivery;
 
+import com.doydoit.springmvcjpa.domain.Address;
+import com.doydoit.springmvcjpa.domain.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,8 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Delivery {
@@ -28,4 +28,9 @@ public class Delivery {
 
     private Address address;
 
+    public Delivery(DeliveryStatus deliveryStatus, Order order, Address address) {
+        this.deliveryStatus = deliveryStatus;
+        this.order = order;
+        this.address = address;
+    }
 }

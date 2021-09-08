@@ -1,5 +1,7 @@
-package com.doydoit.springmvcjpa.domain;
+package com.doydoit.springmvcjpa.domain.member;
 
+import com.doydoit.springmvcjpa.domain.AccessRole;
+import com.doydoit.springmvcjpa.domain.Address;
 import lombok.Getter;
 
 import javax.persistence.*;

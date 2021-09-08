@@ -1,5 +1,6 @@
-package com.doydoit.springmvcjpa.domain;
+package com.doydoit.springmvcjpa.domain.picture;
 
+import com.doydoit.springmvcjpa.domain.item.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

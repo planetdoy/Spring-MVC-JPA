@@ -1,5 +1,7 @@
-package com.doydoit.springmvcjpa.domain;
+package com.doydoit.springmvcjpa.domain.orderItem;
 
+import com.doydoit.springmvcjpa.domain.item.Item;
+import com.doydoit.springmvcjpa.domain.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
