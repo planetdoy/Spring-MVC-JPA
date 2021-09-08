@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/item")
+@RequestMapping("/items")
 @RequiredArgsConstructor
 @Controller
 public class ItemController {
 
     private final ItemService itemService;
 
-    @GetMapping("/list")
-    public String list(Model model) {
+    @GetMapping("/")
+    public String items(Model model) {
         List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
         return "item/itemList.html";
@@ -27,4 +27,5 @@ public class ItemController {
         model.addAttribute("item", item);
         return "item/item.html";
     }
+
 }
