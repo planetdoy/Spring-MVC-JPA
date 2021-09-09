@@ -29,4 +29,10 @@ public class ItemService {
         Item findItem = itemRepository.findById(itemId);
         return findItem.change(item);
     }
+
+    @Transactional
+    public void save(ItemForm form) {
+        Item item = new Item(form.getName(), form.getPrice(), form.getStockQuantity());
+        itemRepository.save(item);
+    }
 }

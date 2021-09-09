@@ -26,17 +26,35 @@ public class ItemController {
     }
 
     /**
+     * 아이템 등록 폼
+     */
+    @GetMapping("/add")
+    public String addForm(@ModelAttribute("item") Item item) {
+        return "item/addForm.html";
+    }
+
+    /**
+     * 아이템 등록
+     */
+    @PostMapping("/add")
+    public String add(@ModelAttribute("item") ItemForm item) {
+        itemService.save(item);
+        return "redirect:/items";
+    }
+
+    /**
      * 단일 아이템 조회
      */
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
+
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
         return "item/item.html";
     }
 
     /**
-     * 아이템 수정 페이지 이동
+     * 아이템 수정 폼
      */
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable("itemId") Long itemId, Model model) {

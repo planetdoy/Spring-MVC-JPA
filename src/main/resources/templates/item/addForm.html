@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Add Item!!</h1>
+<form th:action th:object="${item}" method="post">
+    <ul>
+        <li>
+            <label th:for="*{name}">상품 명</label>
+            <input type="text" th:field="*{name}">
+        </li>
+        <li>
+            <label th:for="*{price}">가격</label>
+            <input type="text" th:field="*{price}">
+        </li>
+        <li>
+            <label th:for="*{stockQuantity}">재고</label>
+            <input type="text" th:field="*{stockQuantity}">
+        </li>
+        <li>
+            <button type="submit">등록</button>
+        </li>
+    </ul>
+</form>
+</body>
+</html>
