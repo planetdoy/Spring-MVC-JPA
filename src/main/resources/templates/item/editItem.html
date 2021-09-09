@@ -11,11 +11,11 @@
 <form th:action th:object="${item}" method="post">
     <ul>
         <li>
-            <label th:for="*{id}">아이템 ID</label>
+            <label th:for="*{id}">상품 ID</label>
             <input type="text" th:field="*{id}" readonly>
         </li>
         <li>
-            <label th:for="*{name}">이름</label>
+            <label th:for="*{name}">상품 명</label>
             <input type="text" th:field="*{name}">
         </li>
         <li>
