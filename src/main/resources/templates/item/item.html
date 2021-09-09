@@ -11,5 +11,6 @@
     <h2 th:text="${item.name}">item name</h2>
     <h2 th:text="${item.price}">item price</h2>
     <h2 th:text="${item.stockQuantity}">item quantity</h2>
+    <button onclick="location.href='item.html'" th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|">상품 수정</button>
 </body>
 </html>

@@ -1,9 +1,7 @@
 package com.doydoit.springmvcjpa.domain.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.doydoit.springmvcjpa.web.item.ItemForm;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -32,5 +30,13 @@ public class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    public Item change(ItemForm item) {
+        this.name = item.getName();
+        this.price = item.getPrice();
+        this.stockQuantity = item.getStockQuantity();
+
+        return this;
     }
 }

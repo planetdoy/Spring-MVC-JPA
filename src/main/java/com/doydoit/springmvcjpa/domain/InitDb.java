@@ -37,7 +37,7 @@ public class InitDb {
 
         public void dbInit1() {
 
-            String name = "item1";
+            String name = "test_init_item_1";
             int price = 10000;
             int stockQuantity = 100;
 
@@ -48,7 +48,7 @@ public class InitDb {
 
         public void dbInit2() {
 
-            String name = "item2";
+            String name = "test_init_item_2";
             int price = 20000;
             int stockQuantity = 10;
 

@@ -8,13 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,11 +31,14 @@ public class ItemRepositoryTest {
         itemRepository.save(item);
         Item findItem = itemRepository.findById(item.getId());
         List<Item> list = itemRepository.findAll();
-        System.out.println("list.get(0).getName() = " + list.get(0).getName());
 
         //then
-        assertThat(name).isEqualTo(findItem.getName());
-        assertThat(findItem).isEqualTo(list.get(0));
+        Assertions.assertThat(name).isEqualTo(findItem.getName());
+
+        //미리 넣어둔 값에 영향을 받지 않을 테스트를 작성하도록 합니다.
+        int index = list.size()-1;
+        Assertions.assertThat(findItem).isEqualTo(list.get(index));
+        
     }
 
 
