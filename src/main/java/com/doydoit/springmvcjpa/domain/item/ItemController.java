@@ -46,21 +46,21 @@ public class ItemController {
     public String add(@ModelAttribute("item") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (!StringUtils.hasText(item.getItemName())) {
-            bindingResult.addError(new FieldError("item", "itemName", "상품 명은 필수입니다."));
+            bindingResult.addError(new FieldError("item", "itemName",item.getItemName(),false, null,null, "상품 명은 필수입니다."));
         }
 
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() >1000000) {
-            bindingResult.addError(new FieldError("item", "price", "상품 가격은 1,000원 이상 1,000,000원 미만이어야 합니다."));
+            bindingResult.addError(new FieldError("item", "price", item.getPrice(),false, null,null, "상품 가격은 1,000원 이상 1,000,000원 미만이어야 합니다."));
         }
 
         if (item.getStockQuantity() == null || item.getStockQuantity() > 9999) {
-            bindingResult.addError(new FieldError("item", "stockQuantity", "수량은 최대 9,999까지 허용합니다."));
+            bindingResult.addError(new FieldError("item", "stockQuantity",item.getStockQuantity(),false,null,null, "수량은 최대 9,999까지 허용합니다."));
         }
 
         if (item.getPrice() != null && item.getStockQuantity() != null) {
             int resultPrice = item.getPrice() * item.getStockQuantity();
             if (resultPrice < 10000) {
-                bindingResult.addError(new ObjectError("item", "가격 * 수량은 10,000원 이상이어야 합니다. 현재 값 " + resultPrice));
+                bindingResult.addError(new ObjectError("item",null,null, "가격 * 수량은 10,000원 이상이어야 합니다. 현재 값 " + resultPrice));
             }
         }
 
