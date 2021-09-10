@@ -4,8 +4,6 @@ import com.doydoit.springmvcjpa.web.item.ItemForm;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
@@ -17,20 +15,20 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
 
-    private String name;
+    private String itemName;
 
     private Integer price;
 
     private Integer stockQuantity;
 
-    public Item(String name, int price, int stockQuantity) {
-        this.name = name;
+    public Item(String itemName, int price, int stockQuantity) {
+        this.itemName = itemName;
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
 
     public Item change(ItemForm item) {
-        this.name = item.getName();
+        this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
 

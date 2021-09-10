@@ -53,6 +53,6 @@ public class ItemServiceTest {
         Item updateItem = itemService.update(originId, form);
 
         //then
-        Assertions.assertThat(updateItem.getName()).isEqualTo(name);
+        Assertions.assertThat(updateItem.getItemName()).isEqualTo(name);
     }
 }

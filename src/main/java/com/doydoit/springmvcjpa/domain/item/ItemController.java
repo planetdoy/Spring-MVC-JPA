@@ -11,9 +11,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -45,10 +43,10 @@ public class ItemController {
      * 아이템 등록
      */
     @PostMapping("/add")
-    public String add(@ModelAttribute("item") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String add(@ModelAttribute("item") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if (!StringUtils.hasText(item.getName())) {
-            bindingResult.addError(new FieldError("item", "name", "상품 명은 필수입니다."));
+        if (!StringUtils.hasText(item.getItemName())) {
+            bindingResult.addError(new FieldError("item", "itemName", "상품 명은 필수입니다."));
         }
 
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() >1000000) {
@@ -81,7 +79,6 @@ public class ItemController {
      */
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
-
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
         return "item/item.html";

@@ -40,6 +40,6 @@ public class ItemRepositoryTest {
         //when
         List<Item> items = itemRepository.findAll();
         //then
-        Assertions.assertThat(name).isEqualTo(items.get(0).getName());
+        Assertions.assertThat(name).isEqualTo(items.get(0).getItemName());
     }
 }

@@ -20,7 +20,7 @@
     <tbody>
         <tr th:each="item : ${items}">
             <td><a href="item.html" th:href="@{|/items/${item.id}|}"  th:text="${item.id}">item id</a></td>
-            <td th:text="${item.name}">item name</td>
+            <td th:text="${item.itemName}">item name</td>
             <td th:text="${item.price}">item price</td>
             <td th:text="${item.stockQuantity}">item stock quantity</td>
         </tr>
