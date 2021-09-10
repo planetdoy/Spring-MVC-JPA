@@ -27,7 +27,7 @@ public class ItemController {
     public String items(Model model) {
         List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
-        return "item/itemList.html";
+        return "item/itemList";
     }
 
     /**
@@ -36,7 +36,7 @@ public class ItemController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item" ,new Item());
-        return "item/addForm.html";
+        return "item/addForm";
     }
 
     /**
@@ -65,7 +65,7 @@ public class ItemController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "item/addForm.html";
+            return "item/addForm";
         }
 
         Long itemId = itemService.save(item);
@@ -81,7 +81,7 @@ public class ItemController {
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
-        return "item/item.html";
+        return "item/item";
     }
 
     /**
@@ -91,15 +91,16 @@ public class ItemController {
     public String editForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
-        return "item/editItem.html";
+        return "item/editItem";
     }
 
     /**
      * 아이템 수정
      */
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable("itemId") Long itemId,@ModelAttribute("item") ItemForm item) {
+    public String edit(@PathVariable("itemId") Long itemId, @ModelAttribute("item") ItemForm item, RedirectAttributes redirectAttributes) {
         itemService.update(itemId, item);
-        return "redirect:/items/"+itemId;
+        redirectAttributes.addAttribute("itemId", itemId);
+        return "redirect:/items/{itemId}";
     }
 }
