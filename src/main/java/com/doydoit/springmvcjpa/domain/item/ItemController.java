@@ -4,9 +4,13 @@ import com.doydoit.springmvcjpa.web.item.ItemForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -29,7 +33,8 @@ public class ItemController {
      * 아이템 등록 폼
      */
     @GetMapping("/add")
-    public String addForm(@ModelAttribute("item") Item item) {
+    public String addForm(Model model) {
+        model.addAttribute("item" ,new Item());
         return "item/addForm.html";
     }
 
@@ -37,9 +42,38 @@ public class ItemController {
      * 아이템 등록
      */
     @PostMapping("/add")
-    public String add(@ModelAttribute("item") ItemForm item) {
-        itemService.save(item);
-        return "redirect:/items";
+    public String add(@ModelAttribute("item") ItemForm item, RedirectAttributes redirectAttributes, Model model) {
+
+        Map<String,String> errors = new HashMap<>();
+
+        if (!StringUtils.hasText(item.getName())) {
+            errors.put("name", "상품 명은 필수입니다.");
+        }
+
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() >1000000) {
+            errors.put("price", "상품 가격은 1,000원 이상 1,000,000원 미만이어야 합니다.");
+        }
+
+        if (item.getStockQuantity() == null || item.getStockQuantity() > 9999) {
+            errors.put("quantity", "수량은 최대 9,999까지 허용합니다.");
+        }
+
+        if (item.getPrice() != null && item.getStockQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getStockQuantity();
+            if (resultPrice < 10000) {
+                errors.put("globalError", "가격 * 수량은 10,000원 이상이어야 합니다. 현재 값 " + resultPrice);
+            }
+        }
+
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors",errors);
+            return "item/addForm.html";
+        }
+
+        Long itemId = itemService.save(item);
+        redirectAttributes.addAttribute("itemId", itemId);
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/items/{itemId}";
     }
 
     /**

@@ -31,8 +31,8 @@ public class ItemService {
     }
 
     @Transactional
-    public void save(ItemForm form) {
+    public Long save(ItemForm form) {
         Item item = new Item(form.getName(), form.getPrice(), form.getStockQuantity());
-        itemRepository.save(item);
+        return itemRepository.save(item);
     }
 }
