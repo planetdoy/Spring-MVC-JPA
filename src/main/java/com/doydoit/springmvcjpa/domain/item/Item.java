@@ -17,14 +17,11 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
 
-    @NotEmpty(message = "상품 명을 입력해주세요.")
     private String name;
 
-    @NotNull(message = "가격은 1000원 이상 입니다.")
-    private int price;
+    private Integer price;
 
-    @NotNull(message = "수량은 0 이상 입니다.")
-    private int stockQuantity;
+    private Integer stockQuantity;
 
     public Item(String name, int price, int stockQuantity) {
         this.name = name;

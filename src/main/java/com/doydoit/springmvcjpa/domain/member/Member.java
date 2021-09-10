@@ -20,7 +20,6 @@ public class Member {
 
     private String loginPw;
 
-    @NotNull
     private String name;
 
     @Enumerated

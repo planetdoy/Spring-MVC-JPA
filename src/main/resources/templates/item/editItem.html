@@ -11,23 +11,23 @@
 <form th:action th:object="${item}" method="post">
     <ul>
         <li>
-            <label th:for="*{id}">상품 ID</label>
+            <label th:for="*{id}" th:text="#{label.item.id}">상품 ID</label>
             <input type="text" th:field="*{id}" readonly>
         </li>
         <li>
-            <label th:for="*{name}">상품 명</label>
+            <label th:for="*{name}" th:text="#{label.item.name}">상품 명</label>
             <input type="text" th:field="*{name}">
         </li>
         <li>
-            <label th:for="*{price}">가격</label>
+            <label th:for="*{price}" th:text="#{label.item.price}">가격</label>
             <input type="text" th:field="*{price}">
         </li>
         <li>
-            <label th:for="*{stockQuantity}">재고</label>
+            <label th:for="*{stockQuantity}" th:text="#{label.item.quantity}">재고</label>
             <input type="text" th:field="*{stockQuantity}">
         </li>
         <li>
-            <button type="submit">수정 완료</button>
+            <button type="submit" th:text="#{button.update}">수정</button>
         </li>
     </ul>
 </form>
