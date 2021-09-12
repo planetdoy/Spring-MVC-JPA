@@ -2,24 +2,23 @@ package com.doydoit.springmvcjpa.domain.item;
 
 import com.doydoit.springmvcjpa.web.item.ItemForm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @RequestMapping("/items")
 @RequiredArgsConstructor
 @Controller
 public class ItemController {
 
     private final ItemService itemService;
-
+    private final ItemValidator itemValidator;
     /**
      * 아이템 전체 조회
      */
@@ -35,7 +34,7 @@ public class ItemController {
      */
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("item" ,new Item());
+        model.addAttribute("item", new Item());
         return "item/addForm";
     }
 
@@ -45,26 +44,33 @@ public class ItemController {
     @PostMapping("/add")
     public String add(@ModelAttribute("item") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        /*
         if (!StringUtils.hasText(item.getItemName())) {
-            bindingResult.addError(new FieldError("item", "itemName",item.getItemName(),false, new String[]{"require.item.itemName"},null, null));
+            bindingResult.rejectValue("itemName", "require");
         }
 
-        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() >1000000) {
-            bindingResult.addError(new FieldError("item", "price", item.getPrice(),false, new String[]{"range.item.price"},new Object[]{1000,1000000}, null));
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+//            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
+            bindingResult.addError(new FieldError("item","price",item.getPrice(), false , new String[]{"range"}, new Object[]{1000,1000000},null));
         }
 
         if (item.getStockQuantity() == null || item.getStockQuantity() > 9999) {
-            bindingResult.addError(new FieldError("item", "stockQuantity",item.getStockQuantity(),false,new String[]{"max.item.quantity"},new Object[]{9999}, null));
+            bindingResult.rejectValue("stockQuantity", "max", new Object[]{9999}, null);
         }
 
         if (item.getPrice() != null && item.getStockQuantity() != null) {
             int resultPrice = item.getPrice() * item.getStockQuantity();
             if (resultPrice < 10000) {
-                bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice}, null));
+                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
             }
+        }*/
+
+        if (itemValidator.supports(item.getClass())) {
+            itemValidator.validate(item,bindingResult);
         }
 
         if (bindingResult.hasErrors()) {
+            log.info("errors ={}", bindingResult.toString());
             return "item/addForm";
         }
 
