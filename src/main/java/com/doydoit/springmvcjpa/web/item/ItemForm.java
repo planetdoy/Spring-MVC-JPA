@@ -1,16 +1,16 @@
 package com.doydoit.springmvcjpa.web.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @ToString
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ItemForm {
+
+    private Long id;
 
     private String itemName;
 

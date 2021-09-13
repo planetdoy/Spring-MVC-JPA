@@ -9,10 +9,10 @@
 
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
-    <h2 th:text="${item.id}">item id</h2>
-    <h2 th:text="${item.itemName}">item name</h2>
-    <h2 th:text="${item.price}">item price</h2>
-    <h2 th:text="${item.stockQuantity}">item quantity</h2>
-    <button onclick="location.href='item.html'" th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|" th:text="#{page.updateItem}">수정</button>
+    <h2 th:text="${itemForm.id}">item id</h2>
+    <h2 th:text="${itemForm.itemName}">item name</h2>
+    <h2 th:text="${itemForm.price}">item price</h2>
+    <h2 th:text="${itemForm.stockQuantity}">item quantity</h2>
+    <button onclick="location.href='item.html'" th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${itemForm.id})}'|" th:text="#{page.updateItem}">수정</button>
 </body>
 </html>

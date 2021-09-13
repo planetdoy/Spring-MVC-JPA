@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +21,15 @@ public class ItemController {
 
     private final ItemService itemService;
     private final ItemValidator itemValidator;
+
+    /**
+     * 검증기 주입
+     */
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidator);
+    }
+
     /**
      * 아이템 전체 조회
      */
@@ -34,7 +45,7 @@ public class ItemController {
      */
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("item", new Item());
+        model.addAttribute("itemForm", new ItemForm());
         return "item/addForm";
     }
 
@@ -42,32 +53,7 @@ public class ItemController {
      * 아이템 등록
      */
     @PostMapping("/add")
-    public String add(@ModelAttribute("item") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        /*
-        if (!StringUtils.hasText(item.getItemName())) {
-            bindingResult.rejectValue("itemName", "require");
-        }
-
-        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
-//            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
-            bindingResult.addError(new FieldError("item","price",item.getPrice(), false , new String[]{"range"}, new Object[]{1000,1000000},null));
-        }
-
-        if (item.getStockQuantity() == null || item.getStockQuantity() > 9999) {
-            bindingResult.rejectValue("stockQuantity", "max", new Object[]{9999}, null);
-        }
-
-        if (item.getPrice() != null && item.getStockQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getStockQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
-            }
-        }*/
-
-        if (itemValidator.supports(item.getClass())) {
-            itemValidator.validate(item,bindingResult);
-        }
+    public String add(@Validated @ModelAttribute("itemForm") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             log.info("errors ={}", bindingResult.toString());
@@ -86,7 +72,8 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
-        model.addAttribute("item", item);
+        ItemForm itemForm = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+        model.addAttribute("itemForm", itemForm);
         return "item/item";
     }
 
@@ -96,7 +83,8 @@ public class ItemController {
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
-        model.addAttribute("item", item);
+        ItemForm itemForm = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+        model.addAttribute("itemForm", itemForm);
         return "item/editItem";
     }
 
@@ -104,7 +92,7 @@ public class ItemController {
      * 아이템 수정
      */
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable("itemId") Long itemId, @ModelAttribute("item") ItemForm item, RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable("itemId") Long itemId, @ModelAttribute("itemForm") ItemForm item, RedirectAttributes redirectAttributes) {
         itemService.update(itemId, item);
         redirectAttributes.addAttribute("itemId", itemId);
         return "redirect:/items/{itemId}";
