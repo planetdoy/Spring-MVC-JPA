@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +21,6 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-    private final ItemValidator itemValidator;
-
-    /**
-     * 검증기 주입
-     */
-    @InitBinder
-    public void init(WebDataBinder dataBinder) {
-        dataBinder.addValidators(itemValidator);
-    }
 
     /**
      * 아이템 전체 조회
@@ -54,6 +46,14 @@ public class ItemController {
      */
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute("itemForm") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (item.getPrice() != null && item.getStockQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getStockQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
+//                bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             log.info("errors ={}", bindingResult.toString());
