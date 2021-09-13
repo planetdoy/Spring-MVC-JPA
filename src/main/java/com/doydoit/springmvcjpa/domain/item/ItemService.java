@@ -25,14 +25,13 @@ public class ItemService {
     }
 
     @Transactional
-    public Item update(Long itemId, ItemForm item) {
+    public Item update(Long itemId, Item item) {
         Item findItem = itemRepository.findById(itemId);
         return findItem.change(item);
     }
 
     @Transactional
-    public Long save(ItemForm form) {
-        Item item = new Item(form.getItemName(), form.getPrice(), form.getStockQuantity());
+    public Long save(Item item) {
         return itemRepository.save(item);
     }
 }

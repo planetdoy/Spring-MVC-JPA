@@ -1,6 +1,8 @@
 package com.doydoit.springmvcjpa.domain.item;
 
 import com.doydoit.springmvcjpa.web.item.ItemForm;
+import com.doydoit.springmvcjpa.web.item.ItemSaveForm;
+import com.doydoit.springmvcjpa.web.item.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,7 +39,7 @@ public class ItemController {
      */
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("itemForm", new ItemForm());
+        model.addAttribute("item", new ItemSaveForm());
         return "item/addForm";
     }
 
@@ -45,10 +47,10 @@ public class ItemController {
      * 아이템 등록
      */
     @PostMapping("/add")
-    public String add(@Validated @ModelAttribute("itemForm") ItemForm item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String add(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if (item.getPrice() != null && item.getStockQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getStockQuantity();
+        if (form.getPrice() != null && form.getStockQuantity() != null) {
+            int resultPrice = form.getPrice() * form.getStockQuantity();
             if (resultPrice < 10000) {
                 bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
 //                bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
@@ -59,6 +61,8 @@ public class ItemController {
             log.info("errors ={}", bindingResult.toString());
             return "item/addForm";
         }
+
+        Item item = new Item(form.getItemName(), form.getPrice(), form.getStockQuantity());
 
         Long itemId = itemService.save(item);
         redirectAttributes.addAttribute("itemId", itemId);
@@ -72,8 +76,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
-        ItemForm itemForm = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
-        model.addAttribute("itemForm", itemForm);
+        model.addAttribute("item", item);
         return "item/item";
     }
 
@@ -83,8 +86,7 @@ public class ItemController {
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
-        ItemForm itemForm = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
-        model.addAttribute("itemForm", itemForm);
+        model.addAttribute("item", item);
         return "item/editItem";
     }
 
@@ -93,12 +95,12 @@ public class ItemController {
      */
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable("itemId") Long itemId,
-                       @Validated @ModelAttribute("itemForm") ItemForm item,
+                       @Validated @ModelAttribute("item") ItemUpdateForm form,
                        BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) {
 
-        if (item.getPrice() != null && item.getStockQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getStockQuantity();
+        if (form.getPrice() != null && form.getStockQuantity() != null) {
+            int resultPrice = form.getPrice() * form.getStockQuantity();
             if (resultPrice < 10000) {
                 bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
             }
@@ -108,6 +110,8 @@ public class ItemController {
             log.info("errors ={}", bindingResult.toString());
             return "item/editItem";
         }
+
+        Item item = new Item(form.getId(), form.getItemName(), form.getPrice(), form.getStockQuantity());
 
         itemService.update(itemId, item);
         redirectAttributes.addAttribute("itemId", itemId);

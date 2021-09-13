@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Item {
@@ -27,7 +28,7 @@ public class Item {
         this.stockQuantity = stockQuantity;
     }
 
-    public Item change(ItemForm item) {
+    public Item change(Item item) {
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
