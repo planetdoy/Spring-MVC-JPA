@@ -92,9 +92,26 @@ public class ItemController {
      * 아이템 수정
      */
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable("itemId") Long itemId, @ModelAttribute("itemForm") ItemForm item, RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable("itemId") Long itemId,
+                       @Validated @ModelAttribute("itemForm") ItemForm item,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
+
+        if (item.getPrice() != null && item.getStockQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getStockQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors ={}", bindingResult.toString());
+            return "item/editItem";
+        }
+
         itemService.update(itemId, item);
         redirectAttributes.addAttribute("itemId", itemId);
+
         return "redirect:/items/{itemId}";
     }
 }
