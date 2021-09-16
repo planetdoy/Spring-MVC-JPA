@@ -1,6 +1,8 @@
 package com.doydoit.springmvcjpa.domain;
 
 import com.doydoit.springmvcjpa.domain.item.Item;
+import com.doydoit.springmvcjpa.domain.member.Member;
+import com.doydoit.springmvcjpa.web.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +26,9 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-//        initService.dbInit1();
+        initService.dbInit1();
 //        initService.dbInit2();
+
     }
 
     @Component
@@ -37,15 +40,21 @@ public class InitDb {
 
         public void dbInit1() {
 
-            String name = "test_init_item_1";
-            int price = 10000;
-            int stockQuantity = 100;
+            String loginId = "test";
+            String memberName = "tester";
+            String password = "test!";
 
-            Item item = new Item(name, price, stockQuantity);
+            Member member = new Member(loginId, memberName, password);
+            em.persist(member);
 
-            em.persist(item);
+//            String name = "test_init_item_1";
+//            int price = 10000;
+//            int stockQuantity = 100;
+//
+//            Item item = new Item(name, price, stockQuantity);
+//
+//            em.persist(item);
         }
-
         public void dbInit2() {
 
             String name = "test_init_item_2";
