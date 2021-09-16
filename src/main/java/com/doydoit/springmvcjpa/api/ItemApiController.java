@@ -20,16 +20,6 @@ public class ItemApiController {
     private final ItemService itemService;
 
     /**
-     * API 예외 처리
-     */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler
-    public ErrorResult exHandle(Exception e) {
-        log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("EX","내부 오류");
-    }
-
-    /**
      * 상품 등록 API
      */
     @PostMapping("/add")
