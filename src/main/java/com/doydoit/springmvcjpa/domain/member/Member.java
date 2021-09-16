@@ -18,9 +18,9 @@ public class Member {
 
     private String loginId;
 
-    private String loginPw;
+    private String password;
 
-    private String name;
+    private String memberName;
 
     @Enumerated
     private AccessRole role;
