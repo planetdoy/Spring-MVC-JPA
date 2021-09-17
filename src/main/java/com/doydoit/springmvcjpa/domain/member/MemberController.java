@@ -22,14 +22,20 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 회원가입 폼
+     */
     @GetMapping("/add")
-    public String add(Model model) {
+    public String addForm(Model model) {
         model.addAttribute("member", new MemberSaveForm());
         return "member/addForm";
     }
 
+    /**
+     * 회원가입
+     */
     @PostMapping("/add")
-    public String addForm(@Validated @ModelAttribute("member") MemberSaveForm form, BindingResult bindingResult) {
+    public String add(@Validated @ModelAttribute("member") MemberSaveForm form, BindingResult bindingResult) {
 
         // TODO 리팩토링
         List<Member> sameIdMember = memberService.findByLoginId(form.getLoginId());
@@ -46,4 +52,5 @@ public class MemberController {
 
         return "redirect:/";
     }
+
 }
