@@ -30,19 +30,23 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(@Validated @ModelAttribute("member") MemberLoginForm form, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-
-        log.info("form = {}", form);
+    public String login(@Validated @ModelAttribute("member") MemberLoginForm form
+            , BindingResult bindingResult
+            , HttpServletRequest request
+            , HttpServletResponse response
+            ,@RequestParam(defaultValue = "/") String redirectURL) {
 
         // 로그인 서비스
         Member member = loginService.login(form.getLoginId(), form.getPassword());
 
-        if (member == null) {
-            bindingResult.reject("error.notMatched", "아이디 혹은 비밀번호가 틀립니다");
-        }
 
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
+            return "login/loginForm";
+        }
+
+        if (member == null) {
+            bindingResult.reject("error.notMatched", "아이디 혹은 비밀번호가 틀립니다");
             return "login/loginForm";
         }
 
@@ -50,7 +54,9 @@ public class LoginController {
         session.setAttribute(SessionConst.Login_Member,member.getId());
         session.setMaxInactiveInterval(600);// 10분
 
-        return "redirect:/";
+        log.info("redirectURL = {}", redirectURL);
+
+         return "redirect:"+redirectURL;
     }
 
     @PostMapping("/logout")
