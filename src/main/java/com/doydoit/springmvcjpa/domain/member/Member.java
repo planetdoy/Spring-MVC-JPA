@@ -28,13 +28,14 @@ public class Member {
 
 //    @Enumerated
 //    private AccessRole role;
-//
-//    @Embedded
-//    private Address address;
 
-    public Member(String loginId, String memberName, String password) {
+    @Embedded
+    private Address address;
+
+    public Member(String loginId, String memberName, String password, Address address) {
         this.loginId = loginId;
         this.memberName = memberName;
         this.password = password;
+        this.address = address;
     }
 }

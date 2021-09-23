@@ -43,8 +43,9 @@ public class InitDb {
             String loginId = "test";
             String memberName = "tester";
             String password = "test!";
+            Address address = new Address("city", "street", 1234);
 
-            Member member = new Member(loginId, memberName, password);
+            Member member = new Member(loginId, memberName, password, address);
             em.persist(member);
 
 //            String name = "test_init_item_1";

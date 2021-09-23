@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +20,12 @@ public class MemberSaveForm {
 
     @NotEmpty
     private String password;
+
+    /*Address*/
+    @NotEmpty
+    private String city;
+    @NotEmpty
+    private String street;
+    @NotNull
+    private Integer zipcode;
 }

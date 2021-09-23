@@ -1,5 +1,6 @@
 package com.doydoit.springmvcjpa.domain.member;
 
+import com.doydoit.springmvcjpa.domain.Address;
 import com.doydoit.springmvcjpa.web.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,9 @@ public class MemberController {
             return "member/addForm";
         }
 
-        Member member = new Member(form.getLoginId(), form.getMemberName(), form.getPassword());
+
+        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        Member member = new Member(form.getLoginId(), form.getMemberName(), form.getPassword(), address);
         memberService.save(member);
 
         return "redirect:/";
