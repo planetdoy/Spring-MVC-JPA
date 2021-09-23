@@ -1,5 +1,6 @@
 package com.doydoit.springmvcjpa.domain.item;
 
+import com.doydoit.springmvcjpa.web.item.ItemForm;
 import com.doydoit.springmvcjpa.web.item.ItemSaveForm;
 import com.doydoit.springmvcjpa.web.item.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,7 +29,12 @@ public class ItemController {
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemService.findAll();
-        model.addAttribute("items", items);
+        List<ItemForm> forms = new ArrayList<>();
+        for (Item item : items) {
+            ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+            forms.add(form);
+        }
+        model.addAttribute("items", forms);
         return "item/itemList";
     }
 
@@ -73,7 +80,8 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
-        model.addAttribute("item", item);
+        ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+        model.addAttribute("item", form);
         return "item/item";
     }
 

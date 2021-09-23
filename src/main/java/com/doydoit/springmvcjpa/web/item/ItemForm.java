@@ -2,6 +2,7 @@ package com.doydoit.springmvcjpa.web.item;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -16,14 +17,11 @@ public class ItemForm {
 
     private Long id;
 
-    @NotBlank
     private String itemName;
 
-    @NotNull
-    @Range(min = 1000, max = 1000000)
+    @NumberFormat(pattern = "###,###")
     private Integer price;
 
-    @NotNull
-    @Max(9999)
+    @NumberFormat(pattern = "###,###")
     private Integer stockQuantity;
 }
