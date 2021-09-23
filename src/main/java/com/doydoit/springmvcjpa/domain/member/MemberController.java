@@ -1,5 +1,6 @@
 package com.doydoit.springmvcjpa.domain.member;
 
+import com.doydoit.springmvcjpa.domain.AccessRole;
 import com.doydoit.springmvcjpa.domain.Address;
 import com.doydoit.springmvcjpa.web.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,8 @@ public class MemberController {
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute("member") MemberSaveForm form, BindingResult bindingResult) {
 
-        // TODO 리팩토링
         List<Member> sameIdMember = memberService.findByLoginId(form.getLoginId());
-        if (sameIdMember.size() != 0) {
+        if (!sameIdMember.isEmpty()) {
             bindingResult.rejectValue("loginId","error.already","이미 존재하는 아이디 입니다.");
         }
 
@@ -50,7 +50,7 @@ public class MemberController {
 
 
         Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
-        Member member = new Member(form.getLoginId(), form.getMemberName(), form.getPassword(), address);
+        Member member = new Member(form.getLoginId(),form.getPassword(), form.getMemberName(), AccessRole.USER, address);
         memberService.save(member);
 
         return "redirect:/";

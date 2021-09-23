@@ -1,5 +1,6 @@
 package com.doydoit.springmvcjpa.domain.login;
 
+import com.doydoit.springmvcjpa.domain.AccessRole;
 import com.doydoit.springmvcjpa.domain.member.Member;
 import com.doydoit.springmvcjpa.web.member.MemberLoginForm;
 import com.doydoit.springmvcjpa.web.member.MemberSaveForm;
@@ -52,9 +53,14 @@ public class LoginController {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(SessionConst.Login_Member,member.getId());
+        session.setAttribute("role",member.getRole());
         session.setMaxInactiveInterval(600);// 10분
 
         log.info("redirectURL = {}", redirectURL);
+
+        if(member.getRole() == AccessRole.ADMIN){
+            return "redirect:/admin";
+        }
 
          return "redirect:"+redirectURL;
     }

@@ -26,16 +26,17 @@ public class Member {
 
     private String memberName;
 
-//    @Enumerated
-//    private AccessRole role;
+    @Enumerated
+    private AccessRole role;
 
     @Embedded
     private Address address;
 
-    public Member(String loginId, String memberName, String password, Address address) {
+    public Member(String loginId, String password, String memberName, AccessRole role, Address address) {
         this.loginId = loginId;
-        this.memberName = memberName;
         this.password = password;
+        this.memberName = memberName;
+        this.role = role;
         this.address = address;
     }
 }
