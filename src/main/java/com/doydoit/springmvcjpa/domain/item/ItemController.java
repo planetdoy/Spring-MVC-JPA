@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/items")
 @RequiredArgsConstructor
 @Controller
 public class ItemController {
@@ -26,7 +25,7 @@ public class ItemController {
     /**
      * 아이템 전체 조회
      */
-    @GetMapping
+    @GetMapping("/items")
     public String items(Model model) {
         List<Item> items = itemService.findAll();
         List<ItemForm> forms = new ArrayList<>();
@@ -39,18 +38,46 @@ public class ItemController {
     }
 
     /**
-     * 아이템 등록 폼
+     * 단일 아이템 조회
      */
-    @GetMapping("/add")
-    public String addForm(Model model) {
-        model.addAttribute("item", new ItemSaveForm());
-        return "item/addForm";
+    @GetMapping("/items/{itemId}")
+    public String item(@PathVariable("itemId") Long itemId, Model model) {
+        Item item = itemService.findById(itemId);
+        ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+        model.addAttribute("item", form);
+        return "item/item";
     }
 
     /**
-     * 아이템 등록
+     * 관리자 아이템 전체 조회
      */
-    @PostMapping("/add")
+    @GetMapping("/admin/items")
+    public String adminItems(Model model) {
+        List<Item> items = itemService.findAll();
+        List<ItemForm> forms = new ArrayList<>();
+        for (Item item : items) {
+            ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
+            forms.add(form);
+        }
+        model.addAttribute("items", forms);
+        return "admin/itemList";
+    }
+
+
+
+    /**
+     * 관리자 아이템 등록 폼
+     */
+    @GetMapping("/admin/items/add")
+    public String addForm(Model model) {
+        model.addAttribute("item", new ItemSaveForm());
+        return "admin/addForm";
+    }
+
+    /**
+     * 관리자 아이템 등록
+     */
+    @PostMapping("/admin/items/add")
     public String add(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (form.getPrice() != null && form.getStockQuantity() != null) {
@@ -63,7 +90,7 @@ public class ItemController {
 
         if (bindingResult.hasErrors()) {
             log.info("errors ={}", bindingResult.toString());
-            return "item/addForm";
+            return "admin/addForm";
         }
 
         Item item = new Item(form.getItemName(), form.getPrice(), form.getStockQuantity());
@@ -71,34 +98,23 @@ public class ItemController {
         Long itemId = itemService.save(item);
         redirectAttributes.addAttribute("itemId", itemId);
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/items/{itemId}";
+        return "redirect:/admin/items";
     }
 
     /**
-     * 단일 아이템 조회
+     * 관리자 아이템 수정 폼
      */
-    @GetMapping("/{itemId}")
-    public String item(@PathVariable("itemId") Long itemId, Model model) {
-        Item item = itemService.findById(itemId);
-        ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
-        model.addAttribute("item", form);
-        return "item/item";
-    }
-
-    /**
-     * 아이템 수정 폼
-     */
-    @GetMapping("/{itemId}/edit")
+    @GetMapping("/admin/items/{itemId}/edit")
     public String editForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
-        return "item/editItem";
+        return "admin/editItem";
     }
 
     /**
-     * 아이템 수정
+     * 관리자 아이템 수정
      */
-    @PostMapping("/{itemId}/edit")
+    @PostMapping("/admin/items/{itemId}/edit")
     public String edit(@PathVariable("itemId") Long itemId,
                        @Validated @ModelAttribute("item") ItemUpdateForm form,
                        BindingResult bindingResult,
@@ -113,14 +129,14 @@ public class ItemController {
 
         if (bindingResult.hasErrors()) {
             log.info("errors ={}", bindingResult.toString());
-            return "item/editItem";
+            return "admin/editItem";
         }
 
         Item item = new Item(form.getId(), form.getItemName(), form.getPrice(), form.getStockQuantity());
 
         itemService.update(itemId, item);
-        redirectAttributes.addAttribute("itemId", itemId);
+//        redirectAttributes.addAttribute("itemId", itemId);
 
-        return "redirect:/items/{itemId}";
+        return "redirect:/admin/items";
     }
 }

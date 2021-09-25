@@ -18,9 +18,8 @@
         <p th:text="|가격 : ${{item.price}} 원|">item price</p>
     </div>
     <div>
-        <p th:text="|수량 : ${{item.stockQuantity}} 개|">item quantity</p>
+        <p th:text="|잔여 수량 : ${{item.stockQuantity}} 개|">item quantity</p>
     </div>
-    <button onclick="location.href='item.html'" th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|" th:text="#{page.updateItem}">수정</button>
     <button type="button" onclick="location.href='/items'">목록으로</button>
 </body>
 </html>

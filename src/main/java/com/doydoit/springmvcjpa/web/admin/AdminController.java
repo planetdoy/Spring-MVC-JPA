@@ -15,11 +15,6 @@ public class AdminController {
         return "/admin/home";
     }
 
-    @GetMapping("/items")
-    public String itemList() {
-        return "/admin/itemList";
-    }
-
     @GetMapping("/orders")
     public String orderList() {
         return "/admin/orderList";
