@@ -21,5 +21,15 @@
         <p th:text="|잔여 수량 : ${{item.stockQuantity}} 개|">item quantity</p>
     </div>
     <button type="button" onclick="location.href='/items'">목록으로</button>
+
+    <div style="height:50px;"></div>
+    <!--주문-->
+    <form action="/orders/add" method="post">
+        <input type="hidden" name="itemId" th:value="${item.id}">
+        <label for="count">수량 : </label>
+        <input type="number" id="count" name="count">
+        <button type="submit">주문하기</button>
+    </form>
+
 </body>
 </html>

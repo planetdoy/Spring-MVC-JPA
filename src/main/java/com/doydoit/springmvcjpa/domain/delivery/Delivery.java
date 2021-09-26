@@ -15,22 +15,25 @@ import javax.persistence.*;
 public class Delivery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "delivery_id")
     private Long id;
 
-    @Enumerated
-    private DeliveryStatus deliveryStatus;
-
-    @OneToOne
-    @JoinColumn(name = "orders_id")
+    @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY)
     private Order order;
 
+    @Embedded
     private Address address;
 
-    public Delivery(DeliveryStatus deliveryStatus, Order order, Address address) {
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus;
+
+    public Delivery(DeliveryStatus deliveryStatus, Address address) {
         this.deliveryStatus = deliveryStatus;
-        this.order = order;
         this.address = address;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

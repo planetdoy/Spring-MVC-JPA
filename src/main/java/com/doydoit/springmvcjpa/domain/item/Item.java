@@ -1,6 +1,5 @@
 package com.doydoit.springmvcjpa.domain.item;
 
-import com.doydoit.springmvcjpa.web.item.ItemForm;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import javax.persistence.*;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 
@@ -34,5 +33,13 @@ public class Item {
         this.stockQuantity = item.getStockQuantity();
 
         return this;
+    }
+
+    public void removeStock(int count) {
+        int restStock = this.stockQuantity - count;
+        if (restStock < 0) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.stockQuantity = restStock;
     }
 }

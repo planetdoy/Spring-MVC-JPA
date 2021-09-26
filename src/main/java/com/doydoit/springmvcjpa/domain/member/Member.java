@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
@@ -26,7 +26,7 @@ public class Member {
 
     private String memberName;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private AccessRole role;
 
     @Embedded
