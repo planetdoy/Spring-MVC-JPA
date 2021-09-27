@@ -15,9 +15,4 @@ public class AdminController {
         return "/admin/home";
     }
 
-    @GetMapping("/orders")
-    public String orderList() {
-        return "/admin/orderList";
-    }
-
 }

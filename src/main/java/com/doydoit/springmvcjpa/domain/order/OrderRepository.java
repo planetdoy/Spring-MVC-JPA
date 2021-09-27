@@ -21,7 +21,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAll() {
-        List<Order> orders = em.createQuery("select o from Orders o", Order.class).getResultList();
+        List<Order> orders = em.createQuery("select o from Order o", Order.class).getResultList();
         return orders;
     }
 }

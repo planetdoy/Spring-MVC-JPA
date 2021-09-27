@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -34,5 +36,15 @@ public class OrderService {
         Order order = Order.createOrder(member, delivery, orderItem);
 
         orderRepository.save(order);
+    }
+
+    public List<Order> findOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Transactional
+    public void cancel(Long orderId) {
+        Order findOrder = orderRepository.findById(orderId);
+        findOrder.cancel();
     }
 }

@@ -1,6 +1,7 @@
 package com.doydoit.springmvcjpa.domain.order;
 
 import com.doydoit.springmvcjpa.domain.delivery.Delivery;
+import com.doydoit.springmvcjpa.domain.delivery.DeliveryStatus;
 import com.doydoit.springmvcjpa.domain.orderItem.OrderItem;
 import com.doydoit.springmvcjpa.domain.member.Member;
 import lombok.AllArgsConstructor;
@@ -69,5 +70,16 @@ public class Order {
         order.orderStatus = OrderStatus.ORDER;
 
         return order;
+    }
+
+    public void cancel() {
+        if (delivery.getDeliveryStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("배송이 완료된 주문은 취소할 수 없습니다.");
+        }
+
+        orderStatus = OrderStatus.CANCEL;
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
     }
 }
