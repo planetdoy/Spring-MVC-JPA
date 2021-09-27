@@ -3,6 +3,7 @@ package com.doydoit.springmvcjpa.domain.orderItem;
 import com.doydoit.springmvcjpa.domain.item.Item;
 import com.doydoit.springmvcjpa.domain.order.Order;
 import lombok.*;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 
@@ -27,6 +28,7 @@ public class OrderItem {
     private Item item;
 
     private int count;
+    @NumberFormat(pattern = "###,###")
     private int orderPrice;
 
     public OrderItem(Item item, int count, int orderPrice) {
@@ -36,7 +38,6 @@ public class OrderItem {
     }
 
     public static OrderItem createOrderItem(Item item, int count, int orderPrice) {
-
         OrderItem orderItem = new OrderItem(item, count, orderPrice);
         item.removeStock(count);
         return orderItem;

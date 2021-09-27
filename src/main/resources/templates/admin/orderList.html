@@ -21,10 +21,10 @@
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.member.memberName}"></td>
                 <td th:text="${item.orderItems[0].item.itemName}"></td>
-                <td th:text="${item.orderItems[0].orderPrice}"></td>
+                <td th:text="${{item.orderItems[0].orderPrice}}"></td>
                 <td th:text="${item.orderItems[0].count}"></td>
                 <td th:text="${item.orderStatus}"></td>
-                <td th:text="${item.orderDate}"></td>
+                <td th:text="${{item.orderDate}}"></td>
                 <td>
                     <a th:if="${item.orderStatus.name() == 'ORDER'}" href="#"
                        th:href="'javascript:cancel('+${item.id}+')'"

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class Order {
 
     private LocalDateTime orderDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
