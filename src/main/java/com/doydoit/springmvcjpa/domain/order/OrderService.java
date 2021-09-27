@@ -47,4 +47,9 @@ public class OrderService {
         Order findOrder = orderRepository.findById(orderId);
         findOrder.cancel();
     }
+
+    public List<Order> findPersonalOrders(Long memberId) {
+        List<Order> orders = orderRepository.findOrderByMemberId(memberId);
+        return orders;
+    }
 }

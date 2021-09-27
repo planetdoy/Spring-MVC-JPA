@@ -44,4 +44,16 @@ public class OrderController {
         orderService.cancel(orderId);
         return "redirect:/admin/orders";
     }
+
+    @GetMapping("/orders")
+    public String orders(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        Long memberId =(Long) session.getAttribute(SessionConst.Login_Member);
+        List<Order> orders = orderService.findPersonalOrders(memberId);
+
+        model.addAttribute("orders", orders);
+
+        return "order/order";
+    }
 }

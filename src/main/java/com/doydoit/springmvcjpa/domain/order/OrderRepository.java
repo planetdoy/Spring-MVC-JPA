@@ -24,4 +24,10 @@ public class OrderRepository {
         List<Order> orders = em.createQuery("select o from Order o", Order.class).getResultList();
         return orders;
     }
+
+    public List<Order> findOrderByMemberId(Long memberId) {
+
+        return em.createQuery("select o from Order o join o.member m where m.id=:memberId",Order.class)
+                .setParameter("memberId", memberId).getResultList();
+    }
 }

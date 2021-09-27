@@ -42,6 +42,7 @@ public class ItemController {
      */
     @GetMapping("/items/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
+        log.info("itemId = {}", itemId);
         Item item = itemService.findById(itemId);
         ItemForm form = new ItemForm(item.getId(), item.getItemName(), item.getPrice(), item.getStockQuantity());
         model.addAttribute("item", form);
