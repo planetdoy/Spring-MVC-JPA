@@ -1,5 +1,6 @@
 package com.doydoit.springmvcjpa.domain.member;
 
+import com.doydoit.springmvcjpa.domain.Address;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,15 @@ public class MemberService {
     @Transactional
     public void save(Member member) {
         memberRepository.save(member);
+    }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
+    @Transactional
+    public void addressEdit(Long memberId, Address address) {
+        Member member = memberRepository.findById(memberId);
+        member.editAddress(address);
     }
 }

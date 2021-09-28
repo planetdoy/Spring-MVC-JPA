@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>User Detail!</h1>
+<h2 th:if="${param.status}" th:text="'수정 완료'"></h2>
+<div>
+    <p th:text="|회원 등급 : ${member.role}|">member role</p>
+</div>
+<div>
+    <p th:text="|회원 명 : ${member.memberName}|">member name</p>
+</div>
+<div>
+    <p th:text="|주소 : ${member.address.city} ${member.address.street} ${member.address.zipcode}|">member address</p>
+</div>
+<form action="/members/address/editForm" method="post">
+    <input type="hidden" name="city" th:value="${member.address.city}">
+    <input type="hidden" name="street" th:value="${member.address.street}">
+    <input type="hidden" name="zipcode" th:value="${member.address.zipcode}">
+    <button type="submit">주소 수정</button>
+</form>
+<button type="button" onclick="location.href='/'">목록으로</button>
+</body>
+</html>

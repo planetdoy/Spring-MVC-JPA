@@ -38,4 +38,8 @@ public class Member {
         this.role = role;
         this.address = address;
     }
+
+    public void editAddress(Address address) {
+        this.address = address;
+    }
 }
